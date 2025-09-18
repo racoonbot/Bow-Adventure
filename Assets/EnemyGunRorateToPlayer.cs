@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyGunRotateToPlayer : MonoBehaviour
 {
     public GameObject player;
+    public GameObject bullet;
+    public Transform bulletSpawn;
+    private float shootTimer;
 
     void Start()
     {
@@ -13,7 +16,12 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
 
     void Update()
     {
-        RotateTowardsPlayer();
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= 2f)
+        {
+            EnemyShoot();
+            shootTimer = 0f;
+        }
     }
 
     void RotateTowardsPlayer()
@@ -23,5 +31,14 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
             Vector3 direction = player.transform.position - transform.position;
             transform.right = direction; //!!! 
         }
+    }
+
+    void EnemyShoot()
+    {
+        RotateTowardsPlayer();
+        Rigidbody rbBullet = Instantiate(
+            bullet, bulletSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
+        Vector3 direction = player.transform.position - bulletSpawn.position;
+        rbBullet.AddForce(direction * 200);
     }
 }
