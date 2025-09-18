@@ -6,10 +6,12 @@ using UnityEngine;
 public class TakeDamage : MonoBehaviour
 {
     public GameObject enemy;
+    private Enemy enemyComponent;
 
     private void Start()
     {
         enemy.SetActive(true);
+        enemyComponent = enemy.GetComponent<Enemy>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +20,8 @@ public class TakeDamage : MonoBehaviour
         {
             Debug.Log("OnTriggerEnter");
             Destroy(other.gameObject);
-            enemy.SetActive(false);
+            
+            enemyComponent.GetComponent<EnemyHealth>().TakeDamage(1);
         }
     }
 }
