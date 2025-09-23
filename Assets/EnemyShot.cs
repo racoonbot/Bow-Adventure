@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyGunRotateToPlayer : MonoBehaviour
+public class EnemyShot : MonoBehaviour
 {
     public Transform SpawnTransform; // Точка спавна пули
     public Transform TargetTransform; // Цель, к которой будет стрелять
@@ -8,17 +8,18 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
     public float AngleInDegrees = 30f; // Угол стрельбы в градусах
     public float Timer = 2f; // Таймер между выстрелами
     private float shotTimer; // Таймер для отслеживания времени между выстрелами
+    public Vector3 shootDir; // Направление стрельбы
 
-    void Start()
-    {
-        // Устанавливаем начальный угол спавна пули
-        if (SpawnTransform != null)
-        {
-            Vector3 e = SpawnTransform.localEulerAngles;
-            e.x = -AngleInDegrees; 
-            SpawnTransform.localEulerAngles = e;
-        }
-    }
+    // void Start()
+    // {
+    //     // Устанавливаем начальный угол спавна пули
+    //     if (SpawnTransform != null)
+    //     {
+    //         Vector3 e = SpawnTransform.localEulerAngles;
+    //         e.x = -AngleInDegrees;
+    //         SpawnTransform.localEulerAngles = e;
+    //     }
+    // }
 
     void Update()
     {
@@ -37,13 +38,25 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
             Vector3 newEuler = new Vector3(localX, lookY.eulerAngles.y, 0f); // Новый угол поворота
             SpawnTransform.rotation = Quaternion.Euler(newEuler); // Применяем новый угол
         }
+
         // Проверяем, пора ли стрелять
         if (shotTimer >= Timer)
         {
             shotTimer = 0f; // Сбрасываем таймер
+            AimToTarget();
             Shoot(); // Выполняем выстрел
         }
     }
+
+    public void AimToTarget()
+    {
+        Vector3 dir = TargetTransform.position - SpawnTransform.position; // Вычисляем направление к цели
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;// Вычисляем угол в градусах
+        angle -= AngleInDegrees; 
+        Quaternion rotation = Quaternion.Euler(0f, 0f, angle); // Создаем вращение вокруг оси Z
+        transform.rotation = rotation; // Применяем вращение
+    }
+
 
     public void Shoot()
     {
@@ -52,12 +65,12 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
         Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>(); // Получаем Rigidbody пули
         Vector3 from = SpawnTransform.position; // Позиция спавна
         Vector3 to = TargetTransform.position; // Позиция цели
-        Vector3 diff = to - from; // Разница между позициями
+        Vector3 diff = to - from; // Разница между позициями (direction)
         float x = new Vector3(diff.x, 0f, diff.z).magnitude; // Горизонтальное расстояние до цели
         float y = diff.y; // Вертикальное расстояние до цели
         float angleRad = AngleInDegrees * Mathf.Deg2Rad; // Преобразуем угол в радианы
         float g = Physics.gravity.y; // Получаем значение гравитации
-        
+
         // Вычисляем необходимые параметры для стрельбы
         float cosA = Mathf.Cos(angleRad);
         float sinA = Mathf.Sin(angleRad);
@@ -67,7 +80,7 @@ public class EnemyGunRotateToPlayer : MonoBehaviour
 
         float v2 = (g * x * x) / denom; // Вычисляем квадрат скорости
         float v = Mathf.Sqrt(v2); // Получаем скорость
-        Vector3 shootDir = SpawnTransform.forward; // Направление стрельбы
+        shootDir = SpawnTransform.forward; // Направление стрельбы
         bulletRb.velocity = shootDir.normalized * v; // Устанавливаем скорость пули
     }
 }
