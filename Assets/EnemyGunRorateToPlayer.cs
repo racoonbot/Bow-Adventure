@@ -2,124 +2,72 @@ using UnityEngine;
 
 public class EnemyGunRotateToPlayer : MonoBehaviour
 {
-    public Transform SpawnTransform;
-    public Transform TargetTransform;
-    public GameObject BulletPrefab;
-    [Tooltip("Elevation angle of the barrel in degrees (positive = up).")]
-    public float AngleInDegrees = 30f;
-
-    [Tooltip("Seconds between shots.")]
-    public float Timer = 2f;
-
-    private float shotTimer;
+    public Transform SpawnTransform; // Точка спавна пули
+    public Transform TargetTransform; // Цель, к которой будет стрелять
+    public GameObject BulletPrefab; // Префаб пули
+    public float AngleInDegrees = 30f; // Угол стрельбы в градусах
+    public float Timer = 2f; // Таймер между выстрелами
+    private float shotTimer; // Таймер для отслеживания времени между выстрелами
 
     void Start()
     {
+        // Устанавливаем начальный угол спавна пули
         if (SpawnTransform != null)
         {
-            // Устанавливаем локальный наклон по X (баррель направлен вверх на AngleInDegrees)
             Vector3 e = SpawnTransform.localEulerAngles;
-            e.x = -AngleInDegrees; // в вашем коде был минус — сохраняю логику (баррель смотрит вверх)
+            e.x = -AngleInDegrees; 
             SpawnTransform.localEulerAngles = e;
         }
     }
 
     void Update()
     {
+        // Проверяем, что точки спавна и цели заданы
         if (SpawnTransform == null || TargetTransform == null) return;
 
-        shotTimer += Time.deltaTime;
+        shotTimer += Time.deltaTime; // Увеличиваем таймер выстрела
 
-        // Поворачиваем поворот вокруг Y так, чтобы баррель смотрел в сторону цели по горизонтали
+        // Вычисляем направление к цели
         Vector3 dir = TargetTransform.position - SpawnTransform.position;
-        Vector3 dirXZ = new Vector3(dir.x, 0f, dir.z);
-        if (dirXZ.sqrMagnitude > 0.0001f)
+        Vector3 dirXZ = new Vector3(dir.x, 0f, dir.z); // Игнорируем вертикальную составляющую
+        if (dirXZ.sqrMagnitude > 0.0001f) // Проверяем, что направление не нулевое
         {
-            Quaternion lookY = Quaternion.LookRotation(dirXZ.normalized, Vector3.up);
-            // Сохраняем локальный X как угол возвышения (в локальных градусах)
-            float localX = -AngleInDegrees;
-            Vector3 newEuler = new Vector3(localX, lookY.eulerAngles.y, 0f);
-            SpawnTransform.rotation = Quaternion.Euler(newEuler);
+            Quaternion lookY = Quaternion.LookRotation(dirXZ.normalized, Vector3.up); // Поворачиваем к цели
+            float localX = -AngleInDegrees; // Угол по оси X
+            Vector3 newEuler = new Vector3(localX, lookY.eulerAngles.y, 0f); // Новый угол поворота
+            SpawnTransform.rotation = Quaternion.Euler(newEuler); // Применяем новый угол
         }
-
+        // Проверяем, пора ли стрелять
         if (shotTimer >= Timer)
         {
-            shotTimer = 0f;
-            Shoot();
+            shotTimer = 0f; // Сбрасываем таймер
+            Shoot(); // Выполняем выстрел
         }
     }
 
     public void Shoot()
     {
-        if (BulletPrefab == null)
-        {
-            Debug.LogError("BulletPrefab is not assigned!");
-            return;
-        }
-
-        if (SpawnTransform == null || TargetTransform == null)
-        {
-            Debug.LogError("SpawnTransform or TargetTransform is not assigned!");
-            return;
-        }
-
-        // Instantiate bullet and get its Rigidbody
+        // Создаем новую пулю
         GameObject newBullet = Instantiate(BulletPrefab, SpawnTransform.position, SpawnTransform.rotation);
-        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
-        if (bulletRb == null)
-        {
-            Debug.LogError("Instantiated bullet has no Rigidbody!");
-            Destroy(newBullet);
-            return;
-        }
-
-        // World positions
-        Vector3 from = SpawnTransform.position;
-        Vector3 to = TargetTransform.position;
-
-        // Horizontal distance (x) and vertical difference (y)
-        Vector3 diff = to - from;
-        float x = new Vector3(diff.x, 0f, diff.z).magnitude;
-        float y = diff.y;
-
-        // Convert angle to radians; angle is elevation above horizontal
-        float angleRad = AngleInDegrees * Mathf.Deg2Rad;
-
-        // Use Physics.gravity.y (negative in Unity by default)
-        float g = Physics.gravity.y;
-        if (Mathf.Approximately(g, 0f))
-        {
-            Debug.LogError("Physics.gravity.y is zero — cannot compute ballistic velocity.");
-            return;
-        }
-
-        // Formula for v^2 derived from projectile motion with given angle:
-        // v^2 = (g*x^2) / (2 * (cos^2(angle) * (y - x*tan(angle))))
+        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>(); // Получаем Rigidbody пули
+        Vector3 from = SpawnTransform.position; // Позиция спавна
+        Vector3 to = TargetTransform.position; // Позиция цели
+        Vector3 diff = to - from; // Разница между позициями
+        float x = new Vector3(diff.x, 0f, diff.z).magnitude; // Горизонтальное расстояние до цели
+        float y = diff.y; // Вертикальное расстояние до цели
+        float angleRad = AngleInDegrees * Mathf.Deg2Rad; // Преобразуем угол в радианы
+        float g = Physics.gravity.y; // Получаем значение гравитации
+        
+        // Вычисляем необходимые параметры для стрельбы
         float cosA = Mathf.Cos(angleRad);
         float sinA = Mathf.Sin(angleRad);
         float tanA = Mathf.Tan(angleRad);
 
-        float denom = 2f * cosA * cosA * (y - x * tanA);
+        float denom = 2f * cosA * cosA * (y - x * tanA); // Знаменатель для вычисления скорости
 
-        // Note: since g is negative, numerator (g * x^2) is negative. denom must also be negative to get positive v^2.
-        float v2 = (g * x * x) / denom;
-
-        if (float.IsNaN(v2) || v2 <= 0f)
-        {
-            Debug.LogWarning("No valid ballistic solution for the given angle and target. Try a different angle or position.");
-            // Optional fallback: aim directly toward target with a fixed speed
-            // float fallbackSpeed = 20f;
-            // bulletRb.velocity = (diff.normalized) * fallbackSpeed;
-            return;
-        }
-
-        float v = Mathf.Sqrt(v2);
-
-        // Build shoot direction in world space: start with forward vector in SpawnTransform local space
-        // SpawnTransform rotation already set so that its forward points toward target horizontally and X tilt is elevation.
-        Vector3 shootDir = SpawnTransform.forward; // uses current rotation (including elevation)
-
-        // Set the rigidbody's velocity
-        bulletRb.velocity = shootDir.normalized * v;
+        float v2 = (g * x * x) / denom; // Вычисляем квадрат скорости
+        float v = Mathf.Sqrt(v2); // Получаем скорость
+        Vector3 shootDir = SpawnTransform.forward; // Направление стрельбы
+        bulletRb.velocity = shootDir.normalized * v; // Устанавливаем скорость пули
     }
 }
