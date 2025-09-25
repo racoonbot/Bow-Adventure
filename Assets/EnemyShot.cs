@@ -81,6 +81,9 @@ public class EnemyShot : MonoBehaviour
         float v2 = (g * x * x) / denom; // Вычисляем квадрат скорости
         float v = Mathf.Sqrt(v2); // Получаем скорость
         shootDir = SpawnTransform.forward; // Направление стрельбы
-        bulletRb.velocity = shootDir.normalized * v; // Устанавливаем скорость пули
+        float speedRandomPercient = 0.30f; // 30% разброс  к скорости
+        float speedFactor = 1f + Random.Range(-speedRandomPercient, speedRandomPercient);
+        bulletRb.velocity = shootDir.normalized * v * speedFactor;// Устанавливаем скорость пули 
+        // bulletRb.velocity = shootDir.normalized * v; 
     }
 }
