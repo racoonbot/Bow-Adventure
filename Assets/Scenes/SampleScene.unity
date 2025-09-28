@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyPrefab: {fileID: 2336231082664188641, guid: a1295d89c8e319143a12e377fb97516b, type: 3}
-  enemyHealth: {fileID: 0}
+  enemyHealth: {fileID: 4757546625729561062, guid: a1295d89c8e319143a12e377fb97516b, type: 3}
   enemyInScene: 0
   minSpawnPositionX: -1
   maxSpawnPositionX: 10
@@ -513,6 +513,18 @@ PrefabInstance:
     - target: {fileID: 1701907435040149107, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2179298674595820278, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2179298674595820278, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2179298674595820278, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3938829992127903188, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
       propertyPath: m_LocalPosition.x

@@ -25,11 +25,6 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-
-    void Update()
-    {
-    }
-
     private void OnEnable()
     {
         enemyHealth.OnDeathEnemy += EnemySpawn;
