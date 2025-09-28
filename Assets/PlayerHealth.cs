@@ -11,6 +11,14 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    private void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public Action OnTouched;
 
     private void OnEnable()
@@ -42,4 +50,5 @@ public class PlayerHealth : MonoBehaviour
         currentHealth += 1;
         Debug.Log($"Добавлено здоровье. Здоровье: {currentHealth}");
     }
+    
 }
