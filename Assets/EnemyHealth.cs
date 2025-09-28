@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int health = 2;
+    public float maxHealth = 2;
+    public float currentHealth;
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
+        currentHealth -= damage;
     }
 
     private void Update()
     {
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             Debug.Log("EnemyDeath");
             Destroy(gameObject);
