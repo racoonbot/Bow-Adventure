@@ -8,7 +8,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     private void Start()
     {
-        // Сначала пытаемся использовать ссылки из инспектора, иначе ищем
+ 
         enemyHealthBar ??= GameObject.Find("EnemyHealthBar")?.GetComponent<Image>();
         enemyHealth ??= GameObject.Find("EnemyHealth")?.GetComponent<EnemyHealth>();
 

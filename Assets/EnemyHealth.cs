@@ -5,10 +5,10 @@ public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 2f;
     public float currentHealth;
+    bool isDead;
 
     public event Action OnDeathEnemy;
 
-    bool isDead;
 
     private void Start()
     {

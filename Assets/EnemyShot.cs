@@ -3,23 +3,17 @@ using UnityEngine;
 public class EnemyShot : MonoBehaviour
 {
     public Transform SpawnTransform; // Точка спавна пули
-    public Transform TargetTransform; // Цель, к которой будет стрелять
+    private Transform TargetTransform; // Цель, к которой будет стрелять
     public GameObject BulletPrefab; // Префаб пули
     public float AngleInDegrees = 30f; // Угол стрельбы в градусах
     public float Timer = 2f; // Таймер между выстрелами
     private float shotTimer; // Таймер для отслеживания времени между выстрелами
     public Vector3 shootDir; // Направление стрельбы
 
-    // void Start()
-    // {
-    //     // Устанавливаем начальный угол спавна пули
-    //     if (SpawnTransform != null)
-    //     {
-    //         Vector3 e = SpawnTransform.localEulerAngles;
-    //         e.x = -AngleInDegrees;
-    //         SpawnTransform.localEulerAngles = e;
-    //     }
-    // }
+    void Start()
+    {
+        TargetTransform = FindObjectOfType<Player>().transform;
+    }
 
     void Update()
     {
@@ -51,8 +45,8 @@ public class EnemyShot : MonoBehaviour
     public void AimToTarget()
     {
         Vector3 dir = TargetTransform.position - SpawnTransform.position; // Вычисляем направление к цели
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;// Вычисляем угол в градусах
-        angle -= AngleInDegrees; 
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // Вычисляем угол в градусах
+        angle -= AngleInDegrees;
         Quaternion rotation = Quaternion.Euler(0f, 0f, angle); // Создаем вращение вокруг оси Z
         transform.rotation = rotation; // Применяем вращение
     }
@@ -83,7 +77,7 @@ public class EnemyShot : MonoBehaviour
         shootDir = SpawnTransform.forward; // Направление стрельбы
         float speedRandomPercient = 0.30f; // 30% разброс  к скорости
         float speedFactor = 1f + Random.Range(-speedRandomPercient, speedRandomPercient);
-        bulletRb.velocity = shootDir.normalized * v * speedFactor;// Устанавливаем скорость пули 
+        bulletRb.velocity = shootDir.normalized * v * speedFactor; // Устанавливаем скорость пули 
         // bulletRb.velocity = shootDir.normalized * v; 
     }
 }

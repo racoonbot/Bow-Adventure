@@ -22,23 +22,31 @@ public class EnemySpawner : MonoBehaviour
         {
             EnemySpawn();
         }
-        
     }
 
     private void OnEnable()
     {
-        enemyHealth.OnDeathEnemy += EnemySpawn;
+        if (enemyHealth != null)
+        {
+            enemyHealth.OnDeathEnemy += EnemySpawn;
+        }
     }
 
     private void OnDisable()
     {
-        enemyHealth.OnDeathEnemy -= EnemySpawn;
+        if (enemyHealth != null)
+        {
+            enemyHealth.OnDeathEnemy -= EnemySpawn;
+        }
     }
 
     private void EnemySpawn()
     {
-        GameObject EnemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
-        enemyInScene = true;
+        if (!enemyInScene)
+        {
+            GameObject EnemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
+            enemyInScene = true;
+        }
     }
 
     private Vector3 GetRandomSpawnPositionXY()

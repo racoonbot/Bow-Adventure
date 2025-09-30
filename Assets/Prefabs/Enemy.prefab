@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 97987391623979334}
   - component: {fileID: 4652585144168113815}
   - component: {fileID: 4757546625729561062}
+  - component: {fileID: 4247697333200355001}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -320,6 +321,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   currentHealth: 0
+--- !u!114 &4247697333200355001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2336231082664188641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 708e521ecfa558f44b24c64491be49f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnTransform: {fileID: 9054678100751693238}
+  TargetTransform: {fileID: 0}
+  BulletPrefab: {fileID: 6829198904861345896, guid: 395d42d918fe3bb47a0882c8a97184df, type: 3}
+  AngleInDegrees: 30
+  Timer: 2
+  shootDir: {x: 0, y: 0, z: 0}
 --- !u!1 &3161567014060419967
 GameObject:
   m_ObjectHideFlags: 0
