@@ -1,18 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int health = 5;
+    public float maxHealth = 5;
+    public float currentHealth;
 
-    public void AddHealth(int amount)
+    private void Start()
     {
-        health += amount;
+        currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    private void Update()
     {
-        health -= damage;
+        if (currentHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
+
+    public Action OnTouched;
+
+    private void OnEnable()
+    {
+        OnTouched += TakeDamage;
+    }
+
+    private void OnDisable()
+    {
+        OnTouched -= TakeDamage;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Bullet>() != null)
+        {
+            OnTouched?.Invoke();
+        }
+    }
+
+    private void TakeDamage()
+    {
+        currentHealth -= 1;
+        Debug.Log($"Получили урон. Здоровье: {currentHealth}");
+    }
+
+    public void AddHealth()
+    {
+        currentHealth += 1;
+        Debug.Log($"Добавлено здоровье. Здоровье: {currentHealth}");
+    }
+    
 }

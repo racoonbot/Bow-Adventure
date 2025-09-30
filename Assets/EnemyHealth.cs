@@ -1,23 +1,39 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int health = 2;
+    public float maxHealth = 2f;
+    public float currentHealth;
 
-    public void TakeDamage(int damage)
+    public event Action OnDeathEnemy;
+
+    bool isDead;
+
+    private void Start()
     {
-        health -= damage;
+        currentHealth = maxHealth;
+        isDead = false;
     }
 
-    private void Update()
+    public void TakeDamage(float damage)
     {
-        if (health <= 0)
+        if (isDead) return;
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0f)
         {
-            Debug.Log("EnemyDeath");
-            Destroy(gameObject);
+            DieAndNotify();
         }
     }
+    void DieAndNotify()
+    {
+        if (isDead) return;
+        isDead = true;
+        Debug.Log("EnemyDeath");
+        OnDeathEnemy?.Invoke();
+        Destroy(gameObject);
+    }
+
 }
