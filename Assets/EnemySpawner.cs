@@ -7,46 +7,21 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
-    public EnemyHealth enemyHealth;
-    public bool enemyInScene;
 
     [SerializeField] private float minSpawnPositionX = -1f;
     [SerializeField] private float maxSpawnPositionX = 10f;
     [SerializeField] private float minSpawnPositionY = -5f;
     [SerializeField] private float maxSpawnPositionY = 8f;
-
-
+    
     void Start()
     {
-        if (!enemyInScene)
-        {
-            EnemySpawn();
-        }
-    }
-
-    private void OnEnable()
-    {
-        if (enemyHealth != null)
-        {
-            enemyHealth.OnDeathEnemy += EnemySpawn;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (enemyHealth != null)
-        {
-            enemyHealth.OnDeathEnemy -= EnemySpawn;
-        }
+        EnemySpawn();
     }
 
     private void EnemySpawn()
     {
-        if (!enemyInScene)
-        {
-            GameObject EnemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
-            enemyInScene = true;
-        }
+        GameObject EnemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
+        EnemyObj.GetComponent<EnemyHealth>().OnDeathEnemy += EnemySpawn;
     }
 
     private Vector3 GetRandomSpawnPositionXY()

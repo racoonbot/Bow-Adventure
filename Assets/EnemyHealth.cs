@@ -15,7 +15,7 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
         isDead = false;
     }
-
+    
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -31,8 +31,10 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        Debug.Log("EnemyDeath");
+        Debug.Log("EnemyDeath " + (OnDeathEnemy == null));
+        
         OnDeathEnemy?.Invoke();
+        
         Destroy(gameObject);
     }
 

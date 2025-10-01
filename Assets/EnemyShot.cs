@@ -9,6 +9,7 @@ public class EnemyShot : MonoBehaviour
     public float Timer = 2f; // Таймер между выстрелами
     private float shotTimer; // Таймер для отслеживания времени между выстрелами
     public Vector3 shootDir; // Направление стрельбы
+    public Transform bow; // лук 
 
     void Start()
     {
@@ -44,11 +45,10 @@ public class EnemyShot : MonoBehaviour
 
     public void AimToTarget()
     {
-        Vector3 dir = TargetTransform.position - SpawnTransform.position; // Вычисляем направление к цели
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // Вычисляем угол в градусах
-        angle -= AngleInDegrees;
-        Quaternion rotation = Quaternion.Euler(0f, 0f, angle); // Создаем вращение вокруг оси Z
-        transform.rotation = rotation; // Применяем вращение
+        Vector3 dir = (TargetTransform.position + Vector3.up * (5f+ Random.Range(-2,2))) - bow.position ; // Вычисляем направление к цели
+
+        
+        bow.rotation = Quaternion.LookRotation(dir); // Применяем вращение
     }
 
 
@@ -56,28 +56,9 @@ public class EnemyShot : MonoBehaviour
     {
         // Создаем новую пулю
         GameObject newBullet = Instantiate(BulletPrefab, SpawnTransform.position, SpawnTransform.rotation);
+        newBullet.layer = LayerMask.NameToLayer("BulletEnemy");
         Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>(); // Получаем Rigidbody пули
-        Vector3 from = SpawnTransform.position; // Позиция спавна
-        Vector3 to = TargetTransform.position; // Позиция цели
-        Vector3 diff = to - from; // Разница между позициями (direction)
-        float x = new Vector3(diff.x, 0f, diff.z).magnitude; // Горизонтальное расстояние до цели
-        float y = diff.y; // Вертикальное расстояние до цели
-        float angleRad = AngleInDegrees * Mathf.Deg2Rad; // Преобразуем угол в радианы
-        float g = Physics.gravity.y; // Получаем значение гравитации
-
-        // Вычисляем необходимые параметры для стрельбы
-        float cosA = Mathf.Cos(angleRad);
-        float sinA = Mathf.Sin(angleRad);
-        float tanA = Mathf.Tan(angleRad);
-
-        float denom = 2f * cosA * cosA * (y - x * tanA); // Знаменатель для вычисления скорости
-
-        float v2 = (g * x * x) / denom; // Вычисляем квадрат скорости
-        float v = Mathf.Sqrt(v2); // Получаем скорость
-        shootDir = SpawnTransform.forward; // Направление стрельбы
-        float speedRandomPercient = 0.30f; // 30% разброс  к скорости
-        float speedFactor = 1f + Random.Range(-speedRandomPercient, speedRandomPercient);
-        bulletRb.velocity = shootDir.normalized * v * speedFactor; // Устанавливаем скорость пули 
-        // bulletRb.velocity = shootDir.normalized * v; 
+        bulletRb.velocity = bow.forward *  (Vector3.Distance(TargetTransform.position,bow.position) +10); // Устанавливаем скорость пули 
+ 
     }
 }

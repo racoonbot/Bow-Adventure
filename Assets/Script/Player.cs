@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             Rigidbody rb = Instantiate(BulletPrefab, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.gameObject.layer = LayerMask.NameToLayer("BulletPlayer");
             rb.AddForce(trajectory.direction * -trajectory.force, ForceMode.Impulse);
             
         }
