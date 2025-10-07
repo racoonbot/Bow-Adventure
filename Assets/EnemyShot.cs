@@ -11,7 +11,7 @@ public class EnemyShot : MonoBehaviour
     public Vector3 shootDir; // Направление стрельбы
     public Transform bow; // лук 
 
-    public float Gravity = -9.81f; 
+    public float gravity = -9.81f; 
     
     
     void Start()
@@ -46,43 +46,122 @@ public class EnemyShot : MonoBehaviour
         }
     }
 
+    
+    
+    
+    
+    
     public void AimToTarget()
     {
-        Vector3 dir = (TargetTransform.position + Vector3.up * (5f+ Random.Range(-2,2))) - bow.position ; // Вычисляем направление к цели
+        if (SpawnTransform == null || TargetTransform == null || bow == null) return;
 
-        
-        bow.rotation = Quaternion.LookRotation(dir); // Применяем вращение
+        Vector3 spawnPos = SpawnTransform.position;
+        Vector3 targetPos = TargetTransform.position + Vector3.up * (5f + Random.Range(-2, 2)); // как у вас было
+        if (GetLaunchVelocity(spawnPos, targetPos, out Vector3 launchVel))
+        {
+            if (launchVel.sqrMagnitude > 0.0001f)
+            {
+                bow.rotation = Quaternion.LookRotation(launchVel.normalized, Vector3.up);
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    private bool GetLaunchVelocity(Vector3 spawnPos, Vector3 targetPos, out Vector3 launchVelocity)
+    {
+        launchVelocity = Vector3.zero;
+        float g = Mathf.Abs(Physics.gravity.y);
+
+        Vector3 flatTarget = new Vector3(targetPos.x, spawnPos.y, targetPos.z);
+        float distance = Vector3.Distance(spawnPos, flatTarget);
+        float heightDiff = targetPos.y - spawnPos.y;
+        if (distance <= 0.0001f) return false;
+
+        float bestV0 = float.PositiveInfinity;
+        float bestAngle = float.NaN;
+        // Поиск в диапазоне 30..45° минимального v0
+        for (float deg = 30f; deg <= 45f; deg += 0.5f)
+        {
+            float a = deg * Mathf.Deg2Rad;
+            float cosA = Mathf.Cos(a);
+            float tanA = Mathf.Tan(a);
+            float denom = 2f * cosA * cosA * (distance * tanA - heightDiff);
+            if (denom <= 0f) continue;
+            float v0sqr = g * distance * distance / denom;
+            if (v0sqr <= 0f || float.IsNaN(v0sqr)) continue;
+            float v0 = Mathf.Sqrt(v0sqr);
+            if (v0 < bestV0) { bestV0 = v0; bestAngle = a; }
+        }
+
+        if (float.IsInfinity(bestV0))
+        {
+            for (float deg = 5f; deg <= 85f; deg += 1f)
+            {
+                float a = deg * Mathf.Deg2Rad;
+                float cosA = Mathf.Cos(a);
+                float tanA = Mathf.Tan(a);
+                float denom = 2f * cosA * cosA * (distance * tanA - heightDiff);
+                if (denom <= 0f) continue;
+                float v0sqr = g * distance * distance / denom;
+                if (v0sqr <= 0f || float.IsNaN(v0sqr)) continue;
+                float v0 = Mathf.Sqrt(v0sqr);
+                if (v0 < bestV0) { bestV0 = v0; bestAngle = a; }
+            }
+        }
+
+        if (float.IsInfinity(bestV0) || float.IsNaN(bestAngle)) return false;
+
+        Vector3 dirXZ = (flatTarget - spawnPos).normalized;
+        float cosBest = Mathf.Cos(bestAngle);
+        float sinBest = Mathf.Sin(bestAngle);
+        launchVelocity = dirXZ * (bestV0 * cosBest) + Vector3.up * (bestV0 * sinBest);
+        return true;
     }
 
-
+    
+    
+    
+    
+    
+    
+    
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(BulletPrefab, SpawnTransform.position, SpawnTransform.rotation);
-        newBullet.layer = LayerMask.NameToLayer("BulletEnemy");
+        // Instantiate bullet
+        Vector3 spawnPos = SpawnTransform.position;
+        Vector3 targetPos = TargetTransform.position; // используем реальную позицию цели (центр)
+    
+        // небольшое смещение вперёд, чтобы не пересекать коллайдер спавна
+        Vector3 dirFlatTemp = new Vector3(targetPos.x - spawnPos.x, 0f, targetPos.z - spawnPos.z).normalized;
+        spawnPos += dirFlatTemp * 0.5f;
 
-        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>(); // Получаем Rigidbody пули
+        GameObject newBullet = Instantiate(BulletPrefab, spawnPos, SpawnTransform.rotation);
+        Rigidbody rb = newBullet.GetComponent<Rigidbody>();
+        if (rb == null) { Debug.LogError("Bullet prefab needs Rigidbody."); Destroy(newBullet); return; }
 
-        // Учитываем координаты цели, добавляя небольшую высоту
-        Vector3 targetPosition = TargetTransform.position + Vector3.up * (5f + Random.Range(-2, 2));
+        // Попытка получить начальную скорость через общий метод
+        if (!GetLaunchVelocity(spawnPos, targetPos, out Vector3 launchVel))
+        {
+            Debug.LogError("No valid angle/speed found for hitting target.");
+            Destroy(newBullet);
+            return;
+        }
 
-        // Рассчитываем направление к цели (от спавна к цели)
-        Vector3 direction = (targetPosition - SpawnTransform.position).normalized; // Направление к цели
+        // Установим вращение лука в направлении начальной скорости (если нужен именно здесь)
+        if (bow != null && launchVel.sqrMagnitude > 0.0001f)
+        {
+            bow.rotation = Quaternion.LookRotation(launchVel.normalized, Vector3.up);
+        }
 
-        // Угловая скорость
-        float angle = 45f * Mathf.Deg2Rad;
-
-        // Дистанция до цели
-        float distance = Vector2.Distance(new Vector2(SpawnTransform.position.x, SpawnTransform.position.y), new Vector2(targetPosition.x, targetPosition.y));
-
-        // Рассчитываем начальную скорость
-        float initialVelocity = Mathf.Sqrt(distance * Mathf.Abs(Gravity) / Mathf.Sin(2 * angle));
-
-        // Создаем вектор скорости, направленный по линии к цели
-        Vector2 launchVelocity = direction * initialVelocity;
-
-        // Устанавливаем скорость пули
-        bulletRb.velocity = launchVelocity; // Устанавливаем скорость пули
+        // Применяем скорость в мировых координатах
+        rb.useGravity = true;
+        rb.velocity = launchVel;
     }
-
-
+    
+    
+    
 }
