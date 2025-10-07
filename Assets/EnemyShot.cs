@@ -11,6 +11,9 @@ public class EnemyShot : MonoBehaviour
     public Vector3 shootDir; // Направление стрельбы
     public Transform bow; // лук 
 
+    public float Gravity = -9.81f; 
+    
+    
     void Start()
     {
         TargetTransform = FindObjectOfType<Player>().transform;
@@ -54,11 +57,32 @@ public class EnemyShot : MonoBehaviour
 
     public void Shoot()
     {
-        // Создаем новую пулю
         GameObject newBullet = Instantiate(BulletPrefab, SpawnTransform.position, SpawnTransform.rotation);
         newBullet.layer = LayerMask.NameToLayer("BulletEnemy");
+
         Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>(); // Получаем Rigidbody пули
-        bulletRb.velocity = bow.forward *  (Vector3.Distance(TargetTransform.position,bow.position) +10); // Устанавливаем скорость пули 
- 
+
+        // Учитываем координаты цели, добавляя небольшую высоту
+        Vector3 targetPosition = TargetTransform.position + Vector3.up * (5f + Random.Range(-2, 2));
+
+        // Рассчитываем направление к цели (от спавна к цели)
+        Vector3 direction = (targetPosition - SpawnTransform.position).normalized; // Направление к цели
+
+        // Угловая скорость
+        float angle = 45f * Mathf.Deg2Rad;
+
+        // Дистанция до цели
+        float distance = Vector2.Distance(new Vector2(SpawnTransform.position.x, SpawnTransform.position.y), new Vector2(targetPosition.x, targetPosition.y));
+
+        // Рассчитываем начальную скорость
+        float initialVelocity = Mathf.Sqrt(distance * Mathf.Abs(Gravity) / Mathf.Sin(2 * angle));
+
+        // Создаем вектор скорости, направленный по линии к цели
+        Vector2 launchVelocity = direction * initialVelocity;
+
+        // Устанавливаем скорость пули
+        bulletRb.velocity = launchVelocity; // Устанавливаем скорость пули
     }
+
+
 }
