@@ -13,11 +13,6 @@ public class LootSpawner : MonoBehaviour
 
     [SerializeField] private float timer = 2f;
 
-    void Start()
-    {
-      
-    }
-
     void Update()
     {
         timer -= Time.deltaTime;
@@ -35,7 +30,6 @@ public class LootSpawner : MonoBehaviour
     private void GetSpawnRandomPosition()
     {
         _spawnRandomPosition = new Vector3(Random.Range(_minSpawnPositionX, _maxSpawnPositionX), _heightSpawnPositionY, 0);
-
     }
     private GameObject GetRandomLootForSpawn()
     {
@@ -43,10 +37,8 @@ public class LootSpawner : MonoBehaviour
         {
             return null;
         }
-
         int obgIndex = Random.Range(0, AllLootList.Count);
         GameObject loot = AllLootList[obgIndex];
-  
         return loot;
     }
 
@@ -54,7 +46,6 @@ public class LootSpawner : MonoBehaviour
     {
         GetSpawnRandomPosition();
         GameObject randomLoot = GetRandomLootForSpawn();
-
         if (randomLoot != null)
         {
             GameObject LootObject = Instantiate(randomLoot, _spawnRandomPosition, Quaternion.identity);
