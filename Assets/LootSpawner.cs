@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class LootSpawner : MonoBehaviour
@@ -14,12 +13,10 @@ public class LootSpawner : MonoBehaviour
 
     [SerializeField] private float timer = 2f;
 
-
     void Start()
     {
-        SpawnLoot();
+      
     }
-
 
     void Update()
     {
@@ -28,31 +25,40 @@ public class LootSpawner : MonoBehaviour
         {
             if (Random.Range(0, 2) == 1)
             {
+            
                 SpawnLoot();
             }
-                timer = 2f;
+            timer = 2f;
         }
     }
 
     private void GetSpawnRandomPosition()
     {
-        _spawnRandomPosition =
-            new Vector3(Random.Range(_minSpawnPositionX, _maxSpawnPositionX), _heightSpawnPositionY, 0);
-    }
+        _spawnRandomPosition = new Vector3(Random.Range(_minSpawnPositionX, _maxSpawnPositionX), _heightSpawnPositionY, 0);
 
+    }
     private GameObject GetRandomLootForSpawn()
     {
+        if (AllLootList.Count == 0) 
+        {
+            return null;
+        }
+
         int obgIndex = Random.Range(0, AllLootList.Count);
-        return AllLootList[obgIndex];
+        GameObject loot = AllLootList[obgIndex];
+  
+        return loot;
     }
 
     private void SpawnLoot()
     {
         GetSpawnRandomPosition();
         GameObject randomLoot = GetRandomLootForSpawn();
+
         if (randomLoot != null)
         {
             GameObject LootObject = Instantiate(randomLoot, _spawnRandomPosition, Quaternion.identity);
         }
+     
     }
 }
