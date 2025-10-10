@@ -141,6 +141,7 @@ public class EnemyShot : MonoBehaviour
 
         GameObject newBullet = Instantiate(BulletPrefab, spawnPos, SpawnTransform.rotation);
         Rigidbody rb = newBullet.GetComponent<Rigidbody>();
+        rb.gameObject.layer = LayerMask.NameToLayer("BulletEnemy");
         if (rb == null) { Debug.LogError("Bullet prefab needs Rigidbody."); Destroy(newBullet); return; }
 
         // Попытка получить начальную скорость через общий метод
