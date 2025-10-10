@@ -42,7 +42,6 @@ public class PlayerHealth : MonoBehaviour
     private void TakeDamage()
     {
         currentHealth -= 1;
-        Debug.Log($"Получили урон. Здоровье: {currentHealth}");
     }
 
     public void AddHealth()
@@ -50,5 +49,4 @@ public class PlayerHealth : MonoBehaviour
         currentHealth += 1;
         Debug.Log($"Добавлено здоровье. Здоровье: {currentHealth}");
     }
-    
 }

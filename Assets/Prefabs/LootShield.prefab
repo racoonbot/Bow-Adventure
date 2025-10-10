@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3207737995099707811}
   - component: {fileID: 6459101423593150370}
   - component: {fileID: 4490670294494104812}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LootShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}

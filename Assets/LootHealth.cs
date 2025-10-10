@@ -1,18 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class LootHealth : Loot
+public class LootHealth : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
+        if (other.GetComponent<Bullet>() != null)
+        {
+            var player = FindObjectOfType<PlayerHealth>(); // Найдите игрока на сцене
+            if (player != null)
+            {
+                player.AddHealth(); 
+                Debug.Log("Здоровье игрока увеличено!");
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            // Опционально: уничтожьте пуль или объект Sphere
+            Destroy(other.gameObject); // Уничтожаем пулю
+            Destroy(gameObject); // Уничтожаем объект Sphere
+        }
     }
 }

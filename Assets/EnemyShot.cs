@@ -67,10 +67,6 @@ public class EnemyShot : MonoBehaviour
     }
     
     
-    
-    
-    
-    
     private bool GetLaunchVelocity(Vector3 spawnPos, Vector3 targetPos, out Vector3 launchVelocity)
     {
         launchVelocity = Vector3.zero;
@@ -122,13 +118,6 @@ public class EnemyShot : MonoBehaviour
         return true;
     }
 
-    
-    
-    
-    
-    
-    
-    
     public void Shoot()
     {
         // Instantiate bullet

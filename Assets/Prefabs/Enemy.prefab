@@ -309,7 +309,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2336231082664188641}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 708e521ecfa558f44b24c64491be49f6, type: 3}
   m_Name: 
@@ -320,6 +320,7 @@ MonoBehaviour:
   Timer: 2
   shootDir: {x: 0, y: 0, z: 0}
   bow: {fileID: 6591948484681106845}
+  gravity: -9.81
 --- !u!1 &3161567014060419967
 GameObject:
   m_ObjectHideFlags: 0

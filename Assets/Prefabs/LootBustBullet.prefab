@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2582572084374149522}
   - component: {fileID: 8411349061102529903}
   - component: {fileID: 6323179104913821085}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LootBustBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
