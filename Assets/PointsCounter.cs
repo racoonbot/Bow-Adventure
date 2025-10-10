@@ -29,7 +29,7 @@ public class PointsCounter : MonoBehaviour
         }
     }
 
-    private void AddPoints()
+    public void AddPoints()
     {
         points++;
         Debug.Log(points);

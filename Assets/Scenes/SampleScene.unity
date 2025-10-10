@@ -485,6 +485,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3140284145882058077, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: isBuffed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3324677842341928434, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
       propertyPath: maxHealth
       value: 20

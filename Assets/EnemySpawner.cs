@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float maxSpawnPositionX = 10f;
     [SerializeField] private float minSpawnPositionY = -5f;
     [SerializeField] private float maxSpawnPositionY = 8f;
-    
+
     void Start()
     {
         EnemySpawn();
@@ -20,8 +20,14 @@ public class EnemySpawner : MonoBehaviour
 
     private void EnemySpawn()
     {
-        GameObject EnemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
-        EnemyObj.GetComponent<EnemyHealth>().OnDeathEnemy += EnemySpawn;
+        GameObject enemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
+        EnemyHealth enemyHealth = enemyObj.GetComponent<EnemyHealth>();
+        PointsCounter pointsCounter = FindObjectOfType<PointsCounter>(); //!
+        if (pointsCounter != null)
+        {
+            enemyHealth.OnDeathEnemy += pointsCounter.AddPoints; 
+        }
+        enemyHealth.OnDeathEnemy += EnemySpawn; 
     }
 
     private Vector3 GetRandomSpawnPositionXY()
