@@ -10,16 +10,15 @@ public class LootHealth : MonoBehaviour
     {
         if (other.GetComponent<Bullet>() != null)
         {
-            var player = FindObjectOfType<PlayerHealth>(); // Найдите игрока на сцене
+            var player = FindObjectOfType<PlayerHealth>();
             if (player != null)
             {
-                player.AddHealth(); 
+                player.AddHealth();
                 Debug.Log("Здоровье игрока увеличено!");
             }
 
-            // Опционально: уничтожьте пуль или объект Sphere
-            Destroy(other.gameObject); // Уничтожаем пулю
-            Destroy(gameObject); // Уничтожаем объект Sphere
+            Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
 }
