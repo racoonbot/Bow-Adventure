@@ -22,10 +22,14 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
         EnemyHealth enemyHealth = enemyObj.GetComponent<EnemyHealth>();
+        
         PointsCounter pointsCounter = FindObjectOfType<PointsCounter>(); //!
-        if (pointsCounter != null)
+        PointsUi pointsUi = FindObjectOfType<PointsUi>();
+        
+        if (pointsCounter != null && pointsUi != null)
         {
             enemyHealth.OnDeathEnemy += pointsCounter.AddPoints; 
+            enemyHealth.OnDeathEnemy += pointsUi.UpdateUi; 
         }
         enemyHealth.OnDeathEnemy += EnemySpawn; 
     }

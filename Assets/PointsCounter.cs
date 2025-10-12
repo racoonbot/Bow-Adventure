@@ -5,28 +5,12 @@ using UnityEngine;
 
 public class PointsCounter : MonoBehaviour
 {
-    [SerializeField] private int points;
+    public int points;
     public EnemyHealth _enemyHealth;
 
     void Start()
     {
         points = 0;
-    }
-
-    private void OnEnable()
-    {
-        if (_enemyHealth != null)
-        {
-            _enemyHealth.OnDeathEnemy += AddPoints;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (_enemyHealth != null)
-        {
-            _enemyHealth.OnDeathEnemy -= AddPoints;
-        }
     }
 
     public void AddPoints()
