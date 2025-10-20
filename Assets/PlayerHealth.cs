@@ -1,13 +1,19 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 5;
     public float currentHealth;
+    public HealScreen healScreen;
 
     private void Start()
     {
+        healScreen = FindObjectOfType<HealScreen>();
+        healScreen.gameObject.SetActive(false);
         currentHealth = maxHealth;
     }
 
@@ -15,11 +21,12 @@ public class PlayerHealth : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
-            gameObject.SetActive(false);
+            Die();
         }
     }
 
-    public Action OnTouched;
+    public event Action OnTouched;
+    public event Action OnDead;
 
     private void OnEnable()
     {
@@ -48,5 +55,32 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth += 1;
         Debug.Log($"Добавлено здоровье. Здоровье: {currentHealth}");
+        StartCoroutine(AddHealthScreen());
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
+        OnDead?.Invoke();
+    }
+
+    private IEnumerator AddHealthScreen()
+    {
+        healScreen.gameObject.SetActive(true);
+        Image image = healScreen.GetComponent<Image>();
+        Color color = image.color;
+        color.a = 1; 
+        image.color = color; 
+
+        for (float t = 0; t < 1; t += Time.deltaTime)
+        {
+ 
+            color.a = Mathf.Lerp(1, 0, t);
+            image.color = color;
+            yield return null; 
+        }
+        color.a = 0; 
+        image.color = color;
+        healScreen.gameObject.SetActive(false);
     }
 }

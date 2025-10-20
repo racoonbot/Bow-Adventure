@@ -1,11 +1,14 @@
 using System;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 2f;
     public float currentHealth;
     bool isDead;
+    
 
     public event Action OnDeathEnemy;
 
