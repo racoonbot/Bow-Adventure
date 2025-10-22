@@ -19,7 +19,6 @@ public class TakeDamage : MonoBehaviour
         if (other.GetComponent<Bullet>())
         {
             Debug.Log("OnTriggerEnter");
-            Destroy(other.gameObject);
             
             enemyComponent.GetComponent<EnemyHealth>().TakeDamage(1);
         }

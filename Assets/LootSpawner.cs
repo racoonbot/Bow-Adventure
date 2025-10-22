@@ -33,12 +33,12 @@ public class LootSpawner : MonoBehaviour
     }
     private GameObject GetRandomLootForSpawn()
     {
-        if (AllLootList.Count == 0) 
-        {
-            return null;
-        }
-        int obgIndex = Random.Range(0, AllLootList.Count);
-        GameObject loot = AllLootList[obgIndex];
+        // if (AllLootList.Count == 0) 
+        // {
+        //     return null;
+        // }
+        // int obgIndex = Random.Range(0, AllLootList.Count);
+        GameObject loot = AllLootList[2];
         return loot;
     }
 

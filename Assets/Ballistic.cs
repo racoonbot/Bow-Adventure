@@ -79,7 +79,11 @@ public class Ballistic : MonoBehaviour
         Debug.Log($"Calculated initial velocity (v): {v}");
 
         GameObject NewBullet = Instantiate(BulletPrefab, SpawnTransform.position, Quaternion.identity);
+        GameObject NewBullet2 = Instantiate(BulletPrefab, SpawnTransform.position, Quaternion.identity);
+        GameObject NewBullet3 = Instantiate(BulletPrefab, SpawnTransform.position, Quaternion.identity);
         bulletRigidbody = NewBullet.GetComponent<Rigidbody>();
+        var bulletRigidbody2 = NewBullet2.GetComponent<Rigidbody>();
+        var bulletRigidbody3 = NewBullet3.GetComponent<Rigidbody>();
 
         if (bulletRigidbody == null)
         {
@@ -90,6 +94,12 @@ public class Ballistic : MonoBehaviour
         // Устанавливаем скорость пули в нужном направлении
         Vector3 shootDirection = Quaternion.Euler(-AngleInDegrees, 0, 0) * Vector3.forward;
         bulletRigidbody.velocity = shootDirection * v;
+        
+        Vector3 shootDirection2 = Quaternion.Euler(-AngleInDegrees-15, 0, 0) * Vector3.forward;
+        bulletRigidbody2.velocity = shootDirection2 * v;
+        
+        Vector3 shootDirection3 = Quaternion.Euler(-AngleInDegrees+15, 0, 0) * Vector3.forward;
+        bulletRigidbody3.velocity = shootDirection3 * v;
         Debug.Log($"Bullet instantiated and velocity set: {bulletRigidbody.velocity}");
     }
 }

@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float shieldTimer = 5f;
+    public GameObject shieldObject;
+    
+    private bool isActiveShield = false;
+    private Coroutine shieldCoroutine;
+    
+    public void ActivateShield()
     {
-        
+        if (!isActiveShield)
+        {
+            if (shieldCoroutine != null)
+            {
+                StopCoroutine(shieldCoroutine);
+            }
+            shieldCoroutine = StartCoroutine(ShieldTimer());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator ShieldTimer()
     {
-        
+        Debug.Log("Щит включен.");
+        shieldObject.gameObject.SetActive(true); 
+        isActiveShield = true;
+        yield return new WaitForSeconds(shieldTimer);
+        shieldObject.gameObject.SetActive(false);  // Отключаем щит после таймера
+        isActiveShield = false; // Устанавливаем состояние обратно
+        Debug.Log("Щит отключен.");
     }
 }
