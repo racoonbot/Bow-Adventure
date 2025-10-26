@@ -6,9 +6,12 @@ using UnityEngine;
 public class LootBustBullet : MonoBehaviour
 {
     private Player player;
+    private BuffTimer buffTimer;
+    
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        buffTimer  = FindObjectOfType<BuffTimer>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,6 +20,7 @@ public class LootBustBullet : MonoBehaviour
         {
             Debug.Log("Hit bullet");
             player.isBuffed = true;
+            buffTimer.StartBuffTimer();
             Destroy(gameObject);
         }
     }
