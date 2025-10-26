@@ -18,8 +18,6 @@ public class TakeDamage : MonoBehaviour
     {
         if (other.GetComponent<Bullet>())
         {
-            Debug.Log("OnTriggerEnter");
-            
             enemyComponent.GetComponent<EnemyHealth>().TakeDamage(1);
         }
     }

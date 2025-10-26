@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LootBustBullet : Loot
+public class LootBustBullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Player player;
+    private void Start()
     {
-        
+        player = FindObjectOfType<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.GetComponent<Bullet>() != null)
+        {
+            Debug.Log("Hit bullet");
+            player.isBuffed = true;
+            Destroy(gameObject);
+        }
     }
 }
