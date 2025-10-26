@@ -10,7 +10,6 @@ public class PointsUi : MonoBehaviour
 {
     public PointsCounter pointsCounter;
     public TextMeshProUGUI pointsText;
-    public EnemyHealth enemyHealth;
 
     private void Start()
     {
@@ -19,6 +18,6 @@ public class PointsUi : MonoBehaviour
 
     public void UpdateUi()
     {
-        pointsText.text = pointsCounter.points.ToString();
+        pointsText.text = $"Очки {pointsCounter.points.ToString() }";
     }
 }

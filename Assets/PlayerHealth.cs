@@ -54,7 +54,6 @@ public class PlayerHealth : MonoBehaviour
     public void AddHealth()
     {
         currentHealth += 1;
-        Debug.Log($"Добавлено здоровье. Здоровье: {currentHealth}");
         StartCoroutine(AddHealthScreen());
     }
 

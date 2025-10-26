@@ -16,6 +16,6 @@ public class LevelUi : MonoBehaviour
 
     public void UpdateUi()
     {
-        LevelText.text = levelManager.level.ToString();
+        LevelText.text = $"Уровень {levelManager.level.ToString()}"; 
     }
 }

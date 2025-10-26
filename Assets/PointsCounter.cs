@@ -6,16 +6,17 @@ using UnityEngine;
 public class PointsCounter : MonoBehaviour
 {
     public int points;
-    public EnemyHealth _enemyHealth;
+    private PointsUi pointsUI;
 
     void Start()
     {
+        pointsUI = FindObjectOfType<PointsUi>();
         points = 0;
     }
 
     public void AddPoints()
     {
         points++;
-        Debug.Log(points);
+        pointsUI.UpdateUi();
     }
 }
