@@ -34,10 +34,8 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
-        Debug.Log("EnemyDeath " + (OnDeathEnemy == null));
-        
         OnDeathEnemy?.Invoke();
-        
+        Debug.Log(gameObject.name + " is dead");
         Destroy(gameObject);
     }
 

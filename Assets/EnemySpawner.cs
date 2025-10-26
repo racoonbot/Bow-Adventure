@@ -25,12 +25,13 @@ public class EnemySpawner : MonoBehaviour
         
         PointsCounter pointsCounter = FindObjectOfType<PointsCounter>(); //!
         PointsUi pointsUi = FindObjectOfType<PointsUi>();
+        LevelManager levelManager = FindObjectOfType<LevelManager>();
         
-        if (pointsCounter != null && pointsUi != null)
-        {
+       
             enemyHealth.OnDeathEnemy += pointsCounter.AddPoints; 
-            enemyHealth.OnDeathEnemy += pointsUi.UpdateUi; 
-        }
+            enemyHealth.OnDeathEnemy += pointsUi.UpdateUi;
+            enemyHealth.OnDeathEnemy += levelManager.AddLevel;
+        
         enemyHealth.OnDeathEnemy += EnemySpawn; 
     }
 

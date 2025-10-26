@@ -6,5 +6,13 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    
+    public int level;
+   
+    public void AddLevel()
+    {
+        level++;
+        Debug.Log("level" + level);
+    }
+
+  
 }
