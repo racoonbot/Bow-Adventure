@@ -59,8 +59,8 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
+        OnDead?.Invoke(); ///!! 
         gameObject.SetActive(false);
-        OnDead?.Invoke();
     }
 
     private IEnumerator AddHealthScreen()

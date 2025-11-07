@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
-
+    private List<Vector3> spawnes;
     [SerializeField] private float minSpawnPositionX = -1f;
     [SerializeField] private float maxSpawnPositionX = 10f;
     [SerializeField] private float minSpawnPositionY = -5f;
@@ -15,6 +15,20 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        spawnes = new List<Vector3>()
+        {
+            new Vector3(0f, -2f, 0f),
+            new Vector3(2f, 3f, 0f),
+            new Vector3(5f, 1f, 0f),
+            new Vector3(7f, -4f, 0f),
+            new Vector3(3f, 5f, 0f),
+            new Vector3(9f, 0f, 0f),
+            new Vector3(1f, -3f, 0f),
+            new Vector3(4f, 2f, 0f),
+            new Vector3(8f, -1f, 0f),
+            new Vector3(-1f, 4f, 0f)
+        };
+        
         EnemySpawn();
     }
 
@@ -37,8 +51,7 @@ public class EnemySpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPositionXY()
     {
-        Vector3 newRandomPosition = new Vector3(Random.Range(minSpawnPositionX, maxSpawnPositionX),
-            Random.Range(minSpawnPositionY, maxSpawnPositionY), 0f);
-        return newRandomPosition;
+        Vector3 newSpawnPosition = spawnes[Random.Range(0, spawnes.Count)];
+        return newSpawnPosition;
     }
 }

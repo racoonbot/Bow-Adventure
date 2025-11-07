@@ -10,6 +10,7 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
         playerHealth = FindObjectOfType<PlayerHealth>();
+        Debug.Log(playerHealth != null ? "PlayerHealth найден." : "PlayerHealth не найден.");
     }
     
     public void LoadStartScene()
@@ -32,7 +33,8 @@ public class SceneLoader : MonoBehaviour
     {
         if (playerHealth != null)
         {
-            playerHealth.OnDead += LoadGameOverScene;
+            playerHealth.OnDead += LoadGameOverScene; //Не подписывается
+            Debug.Log("Подписка на событие OnDead успешно выполнена.");
         }
     }
 
@@ -41,6 +43,7 @@ public class SceneLoader : MonoBehaviour
         if (playerHealth != null)
         {
             playerHealth.OnDead -= LoadGameOverScene;
+            Debug.Log("Отписка на событие OnDead успешно выполнена.");
         }
     }
 }
