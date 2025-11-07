@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float maxHealth = 2f;
+    public float maxHealth = 2f ;
     public float currentHealth;
+    public LevelManager levelManager;
     bool isDead;
     
 
@@ -15,8 +16,14 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-        isDead = false;
+        levelManager = FindObjectOfType<LevelManager>();
+        if (levelManager != null)
+        {
+            AddEnemyMaxHeath();
+            currentHealth = maxHealth;
+            isDead = false;
+            
+        }
     }
     
     public void TakeDamage(float damage)
@@ -37,6 +44,11 @@ public class EnemyHealth : MonoBehaviour
         OnDeathEnemy?.Invoke();
         Debug.Log(gameObject.name + " is dead");
         Destroy(gameObject);
+    }
+
+    private void AddEnemyMaxHeath()
+    {
+        maxHealth = levelManager.level + 1;
     }
 
 }

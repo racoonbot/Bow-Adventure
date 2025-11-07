@@ -8,10 +8,11 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     private List<Vector3> spawnes;
-    [SerializeField] private float minSpawnPositionX = -1f;
-    [SerializeField] private float maxSpawnPositionX = 10f;
-    [SerializeField] private float minSpawnPositionY = -5f;
-    [SerializeField] private float maxSpawnPositionY = 8f;
+    
+    // [SerializeField] private float minSpawnPositionX = -1f;
+    // [SerializeField] private float maxSpawnPositionX = 10f;
+    // [SerializeField] private float minSpawnPositionY = -5f;
+    // [SerializeField] private float maxSpawnPositionY = 8f;
 
     void Start()
     {

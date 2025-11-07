@@ -17,7 +17,7 @@ public class Head : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //в голову отнимает 2ХП
     {
         if (other.GetComponent<Bullet>())
         {
