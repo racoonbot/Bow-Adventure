@@ -5,7 +5,7 @@ public class LootShield : MonoBehaviour
 {
     private Shield shield;
     private AudioSource audioSource;
-    private float delay = 2;
+    private float delay = 0.1f;
     private void Start()
     {
         shield = FindObjectOfType<Shield>();

@@ -13,6 +13,10 @@ public class EnemyHealth : MonoBehaviour
     
 
     public event Action OnDeathEnemy;
+    public event Action HeadShot;
+    
+    
+    
 
 
     private void Start()
@@ -26,7 +30,9 @@ public class EnemyHealth : MonoBehaviour
             
         }
     }
-    
+
+
+
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -38,7 +44,7 @@ public class EnemyHealth : MonoBehaviour
             DieAndNotify();
         }
     }
-    void DieAndNotify()
+    private void DieAndNotify()
     {
         if (isDead) return;
         isDead = true;

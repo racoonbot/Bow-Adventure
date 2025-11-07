@@ -1,29 +1,43 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Head : MonoBehaviour
 {
     public EnemyHealth EnemyHealth;
-    void Start()
+    public TextMeshProUGUI headShot;
+
+    private void Start()
     {
-     
+        headShot.enabled = false; 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
-    private void OnTriggerEnter(Collider other) //в голову отнимает 2ХП
+    private void OnTriggerEnter(Collider other) 
     {
-        if (other.GetComponent<Bullet>())
+        if (other.GetComponent<Bullet>() != null) 
         {
-            Destroy(other.gameObject);
-            EnemyHealth.TakeDamage(2);
-        }
+            ShowHeadShot(); 
+            EnemyHealth.TakeDamage(2); 
+            Destroy(other.gameObject); 
             
+        }
     }
+
+    public void ShowHeadShot()
+    {
+        StartCoroutine(ShowHeadShotUi()); // Запускаем корутину
+    }
+
+    private IEnumerator ShowHeadShotUi()
+    {
+        headShot.enabled = true; // Показываем текст
+        yield return new WaitForSeconds(2f); // Ждем 2 секунды
+        headShot.enabled = false; // Скрываем текст
+    }
+
+  
 }
