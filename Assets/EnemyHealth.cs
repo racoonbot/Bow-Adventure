@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 2f ;
     public float currentHealth;
     public LevelManager levelManager;
+    public ParticleSystem particle;
     bool isDead;
     
 
@@ -42,6 +43,7 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
         OnDeathEnemy?.Invoke();
+        Instantiate(particle, transform.position, Quaternion.identity);
         Debug.Log(gameObject.name + " is dead");
         Destroy(gameObject);
     }

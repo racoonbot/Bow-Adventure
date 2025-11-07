@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     private List<Vector3> spawnes;
-    
+    //Позиции  пределов экрана для рандома
     // [SerializeField] private float minSpawnPositionX = -1f;
     // [SerializeField] private float maxSpawnPositionX = 10f;
     // [SerializeField] private float minSpawnPositionY = -5f;

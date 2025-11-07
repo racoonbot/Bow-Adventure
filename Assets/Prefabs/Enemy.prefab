@@ -302,6 +302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   currentHealth: 0
+  levelManager: {fileID: 0}
+  particle: {fileID: 3362360567180689450, guid: c710b8304943eaf47851a22a89ca12da, type: 3}
 --- !u!114 &4247697333200355001
 MonoBehaviour:
   m_ObjectHideFlags: 0
