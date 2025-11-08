@@ -240,7 +240,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5948516327204638825}
   m_Father: {fileID: 3938829992127903188}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7725517290476852200
@@ -432,7 +433,6 @@ Transform:
   m_Children:
   - {fileID: 5348310954529510853}
   - {fileID: 8691244189625608430}
-  - {fileID: 5948516327204638825}
   - {fileID: 2008117264561542137}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -450,6 +450,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 6829198904861345896, guid: 395d42d918fe3bb47a0882c8a97184df, type: 3}
   trajectory: {fileID: 8595773607546079583}
+  isBuffed: 0
+  materialBuff: {fileID: 0}
+  defaultMaterial: {fileID: 0}
 --- !u!114 &3324677842341928434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,6 +467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   currentHealth: 0
+  healScreen: {fileID: 0}
 --- !u!136 &1369029372672244024
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -514,12 +518,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853744435944932595}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.47, z: 0}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3938829992127903188}
+  m_Father: {fileID: 5348310954529510853}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7556997300464416181
 MeshFilter:
