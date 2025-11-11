@@ -43,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
         enemyHealth.OnDeathEnemy += pointsUi.UpdateUi;
         enemyHealth.OnDeathEnemy += levelManager.AddLevel;
         enemyHealth.OnDeathEnemy += EnemySpawn;
-        enemyHealth.OnDeathEnemy += changeBackground.NewBackground; ///Смена фона
+        // enemyHealth.OnDeathEnemy += changeBackground.NewBackground; ///Смена фона
         
     }
 

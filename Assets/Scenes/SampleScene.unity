@@ -1192,6 +1192,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3938829992127903188, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5735920056442048813, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1211,6 +1215,14 @@ PrefabInstance:
     - target: {fileID: 6747361333175132470, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
       propertyPath: m_Parameters.textureScale.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747361333175132470, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6747361333175132470, guid: e8f607e188f4e9d42997339ed2e01e08, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.17635155
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1843,11 +1855,11 @@ SceneRoots:
   - {fileID: 326031795}
   - {fileID: 870596585}
   - {fileID: 1605584414}
-  - {fileID: 1336029886}
   - {fileID: 1676585489}
   - {fileID: 1256712765}
   - {fileID: 1417116568}
   - {fileID: 1586407890}
   - {fileID: 526890905}
+  - {fileID: 1336029886}
   - {fileID: 213834605}
   - {fileID: 1980676154}
