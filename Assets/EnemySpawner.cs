@@ -8,11 +8,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject EnemyPrefab;
     private List<Vector3> spawnes;
-    //Позиции  пределов экрана для рандома
-    // [SerializeField] private float minSpawnPositionX = -1f;
-    // [SerializeField] private float maxSpawnPositionX = 10f;
-    // [SerializeField] private float minSpawnPositionY = -5f;
-    // [SerializeField] private float maxSpawnPositionY = 8f;
 
     void Start()
     {
@@ -29,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
             new Vector3(8f, -1f, 0f),
             new Vector3(-1f, 4f, 0f)
         };
-        
+
         EnemySpawn();
     }
 
@@ -37,17 +32,19 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemyObj = Instantiate(EnemyPrefab, GetRandomSpawnPositionXY(), Quaternion.identity);
         EnemyHealth enemyHealth = enemyObj.GetComponent<EnemyHealth>();
-        
+
         PointsCounter pointsCounter = FindObjectOfType<PointsCounter>(); //!
         PointsUi pointsUi = FindObjectOfType<PointsUi>();
         LevelManager levelManager = FindObjectOfType<LevelManager>();
+        ChangeBackground changeBackground = FindObjectOfType<ChangeBackground>();
+
+
+        enemyHealth.OnDeathEnemy += pointsCounter.AddPoints;
+        enemyHealth.OnDeathEnemy += pointsUi.UpdateUi;
+        enemyHealth.OnDeathEnemy += levelManager.AddLevel;
+        enemyHealth.OnDeathEnemy += EnemySpawn;
+        enemyHealth.OnDeathEnemy += changeBackground.NewBackground; ///Смена фона
         
-       
-            enemyHealth.OnDeathEnemy += pointsCounter.AddPoints; 
-            enemyHealth.OnDeathEnemy += pointsUi.UpdateUi;
-            enemyHealth.OnDeathEnemy += levelManager.AddLevel;
-        
-        enemyHealth.OnDeathEnemy += EnemySpawn; 
     }
 
     private Vector3 GetRandomSpawnPositionXY()
