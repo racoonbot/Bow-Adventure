@@ -17,6 +17,7 @@ public class PointsCounter : MonoBehaviour
     public void AddPoints()
     {
         points++;
+        GameManager.AddPoints();
         pointsUI.UpdateUi();
     }
 }

@@ -13,7 +13,7 @@ public class EnemyHealth : MonoBehaviour
     
 
     public event Action OnDeathEnemy;
-    public event Action HeadShot;
+    
     
     
     

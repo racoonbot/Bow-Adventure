@@ -46,4 +46,9 @@ public class SceneLoader : MonoBehaviour
             Debug.Log("Отписка на событие OnDead успешно выполнена.");
         }
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
